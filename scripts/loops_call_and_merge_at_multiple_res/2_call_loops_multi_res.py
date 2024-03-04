@@ -12,17 +12,20 @@ res_dict = {
         }
 
 # chromosome list
-chr_list = "all"
+chr_list = "chr1"
 
 # path to output directory
 out_path="/storage/home/spg5958/group/lab/siddharth/projects/micro_c_analysis_Iwafuchi_lab/MCAI64-R1-call_loops_at_multiple_res_and_combine/output/"
 
-if chr_list=="chr1":
+# path to mustache.py
+mustache_path = "/storage/home/spg5958/group/lab/siddharth/software/mustache/mustache/mustache.py"
+
+if chr_list=="all":
     for res, cool_file_path in res_dict.items():
-        call(["/storage/home/spg5958/group/lab/siddharth/software/mustache/mustache/mustache.py", "-f", cool_file_path, "-r", res, "-st", "0.7", "-pt", "0.5", "-p", "4", "-o", f"{out_path}/loops_chr_all_{res}.tsv"])
+        call([mustache_path, "-f", cool_file_path, "-r", res, "-st", "0.7", "-pt", "0.5", "-p", "4", "-o", f"{out_path}/loops_chr_all_{res}.tsv"])
 else:
     for res, cool_file_path in res_dict.items():
-        output=subprocess.run([f"~/group/lab/siddharth/software/mustache/mustache/mustache.py -f {cool_file_path} -ch {chr_list} -r {res} -st 0.7 -pt 0.5 -p 4 -o {out_path}/loops_{chr_list.replace(' ','_')}_{res}.tsv"], shell=True, capture_output=True, text=True)
+        output=subprocess.run([f"{mustache_path} -f {cool_file_path} -ch {chr_list} -r {res} -st 0.7 -pt 0.5 -p 4 -o {out_path}/loops_{chr_list.replace(' ','_')}_{res}.tsv"], shell=True, capture_output=True, text=True)
         print(output.stdout)
         print(output.stderr)
 
