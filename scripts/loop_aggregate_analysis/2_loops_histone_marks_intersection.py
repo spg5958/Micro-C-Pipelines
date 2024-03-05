@@ -3,10 +3,10 @@ import pandas as pd
 import pybedtools
 
 
-loops_file_path = "../output/loops_check/loops.tsv"
-bed_1_file_path = "../input/bed_files/DE_Ctrl_PRDM1.0.7rpm.bed"       # Left histone mark
-bed_2_file_path = "../input/bed_files/DE_Ctrl_H2AK119Ub1.all.bed"     # Right histone mark
-out_file_path = "../output/check.bedpe"
+loops_file_path = "../output/loops_check/loops.tsv"                   # path to loops.tsv file
+bed_1_file_path = "../input/bed_files/DE_Ctrl_PRDM1.0.7rpm.bed"       # Left histone mark/TF
+bed_2_file_path = "../input/bed_files/DE_Ctrl_H2AK119Ub1.all.bed"     # Right histone mark/TF
+out_file_path = "../output/check.bedpe"                               # path to output file
 
 # intersection
 

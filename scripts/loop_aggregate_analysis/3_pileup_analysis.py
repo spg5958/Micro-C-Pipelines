@@ -10,12 +10,12 @@ from tqdm import tqdm
 from coolpuppy.lib import numutils
 
 
-cool_file_path="../input/shared_data_Iwafuchi_lab/DE_merged_bio_rep_1000_normalized.cool"
-bedpe_file_path="../output/check.bedpe"
-flank = 25_000
-out_file_path="../output/check.h5"
-out_figure_path = "../output/check.png"
-SAMPLE="DE"
+cool_file_path="normalized.cool"            # path to normalized .cool file
+bedpe_file_path="../output/check.bedpe"     # path to loops .bedpe file
+flank = 25_000                              # flanking distance around loops
+out_file_path="../output/check.h5"          # path to output file
+out_figure_path = "../output/check.png"     # path of ouput pile-up plot
+SAMPLE="DE"                                 # name of the sample
 
 
 clr = cooler.Cooler(cool_file_path)
