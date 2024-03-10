@@ -6,8 +6,8 @@ import io
 import pybedtools
 
 
-loops_dir="../../output"    # path to directory containing loops at different resolutions in bedpe format
-out_path="../../output"     # path to output directory
+loops_dir="../../output/bedpe_files_check"    # path to directory containing loops at different resolutions in bedpe format
+out_path="../../output/bedpe_files_check"     # path to output directory
 
 loops_df_list=[]
 for file_name in os.listdir(loops_dir):
@@ -72,6 +72,7 @@ for i in loops_df.index[:-1]:
             else:
                 loops_df.loc[i,"status"]="drop"
                 loops_df.loc[j,"status"]="select"
+                break
         print("-"*20)
 print(loops_df)
 loops_df.to_csv(f"{out_path}/loops_merged.tsv", index=False, sep="\t")
