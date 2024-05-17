@@ -31,7 +31,15 @@ echo ${_in_mcool_file_path}
 echo ${unnormalized_out_cool_file_path}
 echo ${normalized_out_cool_file_path}
 
-cooler coarsen -k $k -n 4 ${_in_mcool_file_path} -o ${unnormalized_out_cool_file_path}
+
+if [[ "$k" -eq 1 ]];
+    then
+        echo "k==1 using HiCExplorer"
+        hicConvertFormat -m ${_in_mcool_file_path} --inputFormat cool --outputFormat cool -o ${unnormalized_out_cool_file_path}
+    else
+	cooler coarsen -k $k -n 4 ${_in_mcool_file_path} -o ${unnormalized_out_cool_file_path}
+    fi
+
 
 cp ${unnormalized_out_cool_file_path} ${normalized_out_cool_file_path}
 
