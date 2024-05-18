@@ -1,0 +1,19 @@
+create_matrix_cool_ab_comp.sh --> pca.sh = /storage/home/spg5958/group/lab/siddharth/projects/micro_c_analysis_Iwafuchi_lab/MCAI45-R1-fix_pca_ab_comp_and_data_for_project_update_meeting_on_oct_27_23/code
+
+call_loops_using_mustache_normalized_cool.sh --> loops.sh = /storage/home/spg5958/group/lab/siddharth/projects/micro_c_analysis_Iwafuchi_lab/MCAI54-R1-loop_calling_DE_mustache/code/call_loops_using_mustache_normalized_cool.sh
+
+on_diagonal_pileup_analysis_coolpup - /storage/home/spg5958/group/lab/siddharth/projects/micro_c_analysis_Iwafuchi_lab/MCAI53-R1-pileup_analysis_DE_PRDM1_vs_H2AK119Ub1/code/PRDM1_vs_H2AK119Ub1-H2AK119Ub1.no_PRDM1/
+
+generate_cool_from_mcool - /storage/home/spg5958/group/lab/siddharth/projects/micro_c_analysis_Iwafuchi_lab/MCAI56-R1-create_script_to_generate_any_resolution_normalized_cool_files_from_mcool_file_gerardo/code
+
+construct_ab_compartment_bed_file.py - /storage/home/spg5958/group/lab/siddharth/projects/micro_c_analysis_Iwafuchi_lab/MCAI62-R1-generate_ab_compartments_bed_file/code
+
+loop_aggregate_analysis - /storage/home/spg5958/group/lab/siddharth/projects/micro_c_analysis_Iwafuchi_lab/MCAI63-R1-loop_pileup_analysis_at_histone_marks/code
+ 
+plot_h5_file_pileup_analysis.py - /storage/home/spg5958/group/lab/siddharth/projects/micro_c_analysis_Iwafuchi_lab/MCAI63-R1-loop_pileup_analysis_at_histone_marks/code
+
+plot_h5_file_pileup_analysis_batch.py - /storage/home/spg5958/group/lab/siddharth/projects/micro_c_analysis_Iwafuchi_lab/MCAI63-R1-loop_pileup_analysis_at_histone_marks/code
+
+loops_call_and_merge_at_multiple_res - /storage/home/spg5958/group/lab/siddharth/projects/micro_c_analysis_Iwafuchi_lab/MCAI64-R1-call_loops_at_multiple_res_and_combine/code/final
+
+ChromHMM_loop_intersection_pipeline - /storage/home/spg5958/group/lab/siddharth/projects/micro_c_analysis_Iwafuchi_lab/MCAI70-R1-new_merge_Bivalent_Bivalent_and_Polycomb_Polycomb_loops_from_chromHMM/code

@@ -3,18 +3,18 @@
 #SBATCH --time=30:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
-#SBATCH --mem=50GB
+#SBATCH --mem=100GB
 #SBATCH --partition=open
-#SBATCH --job-name=MCAI67-R1-2_call_loops_multi_res
+#SBATCH --job-name=MCAI67-R1-5_pileup_analysis
 #SBATCH --output=../output/slurm-%x-%j.out
 umask 007
 
 source ~/conda_init.sh
-conda activate mustache
+conda activate coolpup
 
 SECONDS=0
 
-python 2_call_loops_multi_res.py
+python pileup_analysis_off_diagonal.py
 
 ELAPSED="Elapsed(trainNN.sh): $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
 echo ""
