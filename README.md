@@ -237,5 +237,13 @@ This a custom pipeline for identification TAD boundaries using TADbit1 tad calle
        pyGenomeTracks --tracks tracks.ini --region CHR:star-end --outFileName out.png
    ```
 
+# Loops and Their Pile-up Analysis Pipeline
+The intended analysis of this pipeline is the pile-up (aggregate) analysis of the loops whose anchors overlap with peaks of particular histone marks or TF1,2.  The input for pipeline is a normalized .cool matrix file.
 
+1) Call loops using Mustache:
+   Loops can be called using the following command. In the command below, -f is input .cool file, -ch is the list of chromosomes, -r is the resolution, and -o is the output file. If you don't specify the chromosome (-ch) for a .[m]cool  mustache will run on all chromosomes and output loop anchors (coordinates) in a .tsv file specified by -o. For more information on arguments please refer to the Mustache documentation.
+   ```
+   Run:
+       path_to_mustache/mustache/mustache/mustache.py -f cool_file_path -ch chr_list -r res -st 0.7 -pt 0.5 -p 4 -o out.tsv 
+   ```
 
