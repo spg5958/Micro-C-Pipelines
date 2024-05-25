@@ -4,18 +4,18 @@
 
 ## Step 1 - Process Individual Replicates
 - Arrange the FASTQ files according to the following directory structure. HiC-Pro considers all readsr within one input folder as one sample
-```
-|--PATH_TO_FASTQ_FILES
-   |--sample1
-      |--file1_R1.fastq.gz
-      |--file1_R2.fastq.gz
-      |--file2_R1.fastq.gz
-      |--file2_R2.fastq.gz
-      |-- ...
-   |--sample2
-     |-- file1_R1.fastq.gz
-     |-- file1_R2.fastq.gz
-```
+  ```
+  |--PATH_TO_FASTQ_FILES
+     |--sample1
+        |--file1_R1.fastq.gz
+        |--file1_R2.fastq.gz
+        |--file2_R1.fastq.gz
+        |--file2_R2.fastq.gz
+        |-- ...
+     |--sample2
+        |-- file1_R1.fastq.gz
+        |-- file1_R2.fastq.gz
+  ```
 - Generate annotation files:
   - chromosomes sizes file: Two-column tab-separated text file containing chromosome names and sizes. 
 e.g.: https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes 
@@ -38,12 +38,35 @@ e.g.: https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes
   - (Hi-C only) MAX_INSERT_SIZE = Maximum sequenced insert size. Larger 3C products are discarded. Example: 600
 
 - Run HiC-pro.
-```
-Run:
-MY_INSTALL_PATH/bin/HiC-Pro -i FULL_PATH_TO_DATA_FOLDER -o FULL_PATH_TO_OUTPUTS -c MY_LOCAL_CONFIG_FILE
-```
+  ```
+  Run:
+     MY_INSTALL_PATH/bin/HiC-Pro -i FULL_PATH_TO_DATA_FOLDER -o FULL_PATH_TO_OUTPUTS -c MY_LOCAL_CONFIG_FILE
+  ```
+  
 ## Step 2 - Merge Replicates
 To merge biological replicates after merging technical replicates, we can rerun HiC-Pro starting from the validPairs files generated during the previous analysis. There's no need to start from the FASTQ files again.
 
 - Arrange validPairs files according to the following directory structure.
-- 
+  ```
+  |--PATH_TO_validPairs_FILES
+     |--validPairs
+        |--validPairs tech_sample1
+        |--validPairs tech_sample2
+  ```
+- Rerun Hic-Pro in stepwise mode.
+  ```
+  MY_INSTALL_PATH/bin/HiC-Pro -i FULL_PATH_TO_VALIDPAIRS_DATA -o FULL_PATH_TO_OUTPUTS -c MY_LOCAL_CONFIG_FILE -s merge_persample -s build_contact_maps -s ice_norm
+  ```
+  
+## Step 3 - Generate .cool Files
+   HiC-Pro outputs contact matrices in .matrix format. However, .cool files are generally accepted by most HiC analysis software and are also easier to handle than other formats.
+   Therefore, I convert .matrix files to .cool files using the following 'hicpro2higlass.sh' script that comes with HiC-Pro. 
+   ```
+   Run:
+      HICPRO_PATH/bin/utils/hicpro2higlass.sh -i MATRIX_FILE -r RESOLUTION -c CHROMSIZES_FILE -o OUTPUT_PATH -p NUM_PROC
+   ```
+
+## Step 4 - Normalize .cool Files
+   Although HiC-Pro can generate normalized .cool files, I prefer to normalize the raw .cool files separately. I use `` Python script for normalizing the .cool files. This
+   script uses Iterative correction5,6 matrix balancing method from cooler package. The full path to the .cool file should be provided at line number 11 before running.
+
