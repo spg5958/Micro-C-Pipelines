@@ -1,6 +1,6 @@
 # [DOCUMENTATION & SOME SCRIPTS ARE UNDER DEVELOPMENT]
 
-# Pipeline 1
+# Pipeline 1 - Pipeline for generating contact matrix from FASTQ files using HiC-Pro
 
 ## Step 1 - Process Individual Replicates
 - Arrange the FASTQ files according to the following directory structure. HiC-Pro considers all readsr within one input folder as one sample
@@ -68,4 +68,6 @@ To merge biological replicates after merging technical replicates, we can rerun 
 
 ## Step 4 - Normalize .cool Files
    Although HiC-Pro can generate normalized .cool files, I prefer to normalize the raw .cool files separately. I use `pipeline_scripts/4_normalize_cool/normalize_cool.py` Python script for normalizing the .cool files. This script uses Iterative correction matrix balancing method from cooler package. The full path to the .cool file should be provided at line number before running.
+
+# Pipeline 2 - Pipeline for Identification of A/B Compartments 
 
