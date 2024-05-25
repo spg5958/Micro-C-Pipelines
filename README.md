@@ -275,7 +275,7 @@ The intended analysis of this pipeline is the pile-up (aggregate) analysis of th
 
 ```
 Scripts:
-- /8_loops_and_pileup_analysis/1_call_loops
+- /pipeline_scripts/8_loops_and_pileup_analysis/1_call_loops
 ```
 
 ## Usage
