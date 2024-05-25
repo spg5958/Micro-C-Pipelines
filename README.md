@@ -3,7 +3,7 @@
 # Contents
  - [Pipeline for generating contact matrix from FASTQ files using HiC-Pro](#Pipeline-for-generating-contact-matrix-from-FASTQ-files-using-HiC-Pro) 
  - [Pipeline for Identification of A/B Compartments](#Pipeline-for-Identification-of-AB-Compartments)
- - [Pipeline for calling TADs ](Pipeline-for-calling-TADs)
+ - [Pipeline for calling TADs](Pipeline-for-calling-TADs)
 
 
 <br>
