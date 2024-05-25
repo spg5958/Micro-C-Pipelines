@@ -1,5 +1,8 @@
 # [DOCUMENTATION & SOME SCRIPTS ARE UNDER DEVELOPMENT]
 
+<br>
+<br>
+
 # Pipeline 1 - Pipeline for generating contact matrix from FASTQ files using HiC-Pro
 
 ## Step 1 - Process Individual Replicates
@@ -69,5 +72,25 @@ To merge biological replicates after merging technical replicates, we can rerun 
 ## Step 4 - Normalize .cool Files
    Although HiC-Pro can generate normalized .cool files, I prefer to normalize the raw .cool files separately. I use `pipeline_scripts/4_normalize_cool/normalize_cool.py` Python script for normalizing the .cool files. This script uses Iterative correction matrix balancing method from cooler package. The full path to the .cool file should be provided at line number before running.
 
-# Pipeline 2 - Pipeline for Identification of A/B Compartments 
+<br>
+<br>
 
+# Pipeline 2 - Pipeline for Identification of A/B Compartments 
+This pipeline is based on the protocol outlined by Miura et al. in their book1. It utilizes HiCExplorer commands as detailed in the documentation2 and generates A/B compartments starting from a raw .cool matrix. While input for pipeline is a raw .cool matrix, but you can start from a normalized .cool matrix and bypass the step 1 below.
+
+1) Normalize .cool file:
+   - (optional) Normalize to equal level of read coverage or value ranges: If you want to compare different Hi-C interaction matrices (samples/replicates), the matrices need to be normalized to equal level of read coverage or value ranges. This can be achieved with ‘hicNormalize’ command as follows. Please refer to hicNormalize documentation for further details.
+     ```
+     Run:
+       hicNormalize -m matrix.cool --normalize smallest -o normalized_matrix.cool
+     ```
+   - Correct HiC matrix using Iterative Correction (ICE): The Hi-C matrix has to be corrected to remove GC, open chromatin biases and, most importantly, to normalize the number of restriction sites per bin4. However, for this method to work correctly, bins with zero reads assigned to them should be removed as they cannot be corrected. Also, bins with the low number of reads should be removed. Bins with an extremely high number of reads can also be removed from the correction as they may represent copy number variations. To aid in the identification of bins (threshold values) with low and high read coverage, the histogram (diagnostic plot) of the number of reads can be plotted together with the Median Absolute Deviation (MAD) using the ‘hicCorrectMatrix’5 command as shown below.
+     ```
+     Run:
+       hicCorrectMatrix diagnostic_plot –m matrix.cool -o plot_file.png --chromosomes chr
+     ```
+     Once the thresholds have been decided, the matrix can be corrected as follows.
+     ```
+     Run:
+       hicCorrectMatrix correct -m matrix.cool --correctionMethod ICE –chromosomes chr_list --iterNum 5000 -o corrected.cool --filterThreshold -1.5 5
+     ```
