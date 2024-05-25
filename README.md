@@ -39,8 +39,8 @@ e.g.: https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes
   - **The bowtie2 indexes:** See the bowtie2 manual page for details about how to create such indexes. 
   - **(HiC only) A BED file of the restriction fragments after digestion:** This file depends on both the restriction enzyme and the reference genome. See the HiC-Pro annotation for details about how to generate this file.
  
-- Setup the configuration file (pipeline_scripts/1_hic_pro/config-hicpro.txt): <br>
-  Copy and edit the 'pipeline_scripts/1_hic_pro/config-hicpro.txt' file in your local directory. Modify the options in the configuration file as required. Below are some of the important options to consider; for more detailed explanations of these options, refer to the HiC-Pro manual. 
+- Setup the configuration file: <br>
+  Copy and edit the `pipeline_scripts/1_hic_pro/config-hicpro.txt` file in your local directory. Modify the options in the configuration file as required. Below are some of the important options to consider; for more detailed explanations of these options, refer to the HiC-Pro manual. 
   - PAIR1_EXT = Keyword for first mate detection. Default: _R1 
   - PAIR2_EXT = Keyword for second mate detection. Default: _R2 
   - REFERENCE_GENOME = Reference genome prefix used for genome indexes. Default: hg19 
