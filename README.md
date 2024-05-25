@@ -12,6 +12,12 @@
 
 # Pipeline for generating contact matrix from FASTQ files using HiC-Pro
 
+```
+Scripts: 
+- pipeline_scripts/1_hic_pro
+- pipeline_scripts/2_hicpro_to_cool_mcool
+```
+
 ## Step 1 - Process Individual Replicates
 - Arrange the FASTQ files according to the following directory structure. HiC-Pro considers all reads within one input folder as one sample.
   ```
@@ -32,8 +38,8 @@ e.g.: https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes
   - **The bowtie2 indexes:** See the bowtie2 manual page for details about how to create such indexes. 
   - **(HiC only) A BED file of the restriction fragments after digestion:** This file depends on both the restriction enzyme and the reference genome. See the HiC-Pro annotation for details about how to generate this file.
  
-- Setup the configuration file: <br>
-  Copy and edit the 'config-hicpro.txt' file in your local directory. Modify the options in the configuration file as required. Below are some of the important options to consider; for more detailed explanations of these options, refer to the HiC-Pro manual. 
+- Setup the configuration file (pipeline_scripts/1_hic_pro/config-hicpro.txt): <br>
+  Copy and edit the 'pipeline_scripts/1_hic_pro/config-hicpro.txt' file in your local directory. Modify the options in the configuration file as required. Below are some of the important options to consider; for more detailed explanations of these options, refer to the HiC-Pro manual. 
   - PAIR1_EXT = Keyword for first mate detection. Default: _R1 
   - PAIR2_EXT = Keyword for second mate detection. Default: _R2 
   - REFERENCE_GENOME = Reference genome prefix used for genome indexes. Default: hg19 
@@ -48,9 +54,14 @@ e.g.: https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes
   - (Hi-C only) MAX_INSERT_SIZE = Maximum sequenced insert size. Larger 3C products are discarded. Example: 600
 
 - Run HiC-pro.
+  Modify the parameters in `pipeline_scripts/1_hic_pro/run_hicpro_fastq.sh` according to following command:
+  ```
+  MY_INSTALL_PATH/bin/HiC-Pro -i FULL_PATH_TO_DATA_FOLDER -o FULL_PATH_TO_OUTPUTS -c MY_LOCAL_CONFIG_FILE
+  ```
+  Then,
   ```
   Run:
-     MY_INSTALL_PATH/bin/HiC-Pro -i FULL_PATH_TO_DATA_FOLDER -o FULL_PATH_TO_OUTPUTS -c MY_LOCAL_CONFIG_FILE
+      ./run_hicpro_fastq.sh
   ```
   
 ## Step 2 - Merge Replicates
@@ -64,20 +75,52 @@ To merge replicates after processing individual replicates, we can rerun HiC-Pro
         |--validPairs tech_sample2
   ```
 - Rerun Hic-Pro in stepwise mode.
+  Modify the parameters in `pipeline_scripts/1_hic_pro/run_hicpro_merge_validPairs.sh` according to following command:
   ```
   MY_INSTALL_PATH/bin/HiC-Pro -i FULL_PATH_TO_VALIDPAIRS_DATA -o FULL_PATH_TO_OUTPUTS -c MY_LOCAL_CONFIG_FILE -s merge_persample -s build_contact_maps -s ice_norm
+  ```
+  Then,
+  ```
+  Run:
+      ./run_hicpro_merge_validPairs.sh
   ```
   
 ## Step 3 - Generate .cool Files
    HiC-Pro outputs contact matrices in .matrix format. However, .cool files are generally accepted by most HiC analysis software and are also easier to handle than other formats.
-   Therefore, I convert .matrix files to .cool files using the following 'hicpro2higlass.sh' script that comes with the HiC-Pro. 
+   Therefore, I convert .matrix files to .cool files using the following 'hicpro2higlass.sh' script that comes with the HiC-Pro.
+   
+   Modify the parameters in `pipeline_scripts/2_hicpro_to_cool_mcool/1_create_cool_from_hic_pro_matrix.sh` according to following command:
+   ```
+   HICPRO_PATH/bin/utils/hicpro2higlass.sh -i MATRIX_FILE -r RESOLUTION -c CHROMSIZES_FILE -o OUTPUT_PATH -p NUM_PROC
+   ```
+   Then,
    ```
    Run:
-      HICPRO_PATH/bin/utils/hicpro2higlass.sh -i MATRIX_FILE -r RESOLUTION -c CHROMSIZES_FILE -o OUTPUT_PATH -p NUM_PROC
+       ./1_create_cool_from_hic_pro_matrix.sh
    ```
 
 ## Step 4 - Normalize .cool Files
-   Although HiC-Pro can generate normalized .cool files, I prefer to normalize the raw .cool files separately. I use `pipeline_scripts/4_normalize_cool/normalize_cool.py` Python script for normalizing the .cool files. This script uses Iterative correction matrix balancing method from cooler package. The full path to the .cool file should be provided in the script.
+   Although HiC-Pro can generate normalized .cool files, I prefer to normalize the raw .cool files separately. I use `pipeline_scripts/4_normalize_cool/normalize_cool.sh` script for normalizing the .cool files. This script uses Iterative correction matrix balancing method from cooler package.
+
+Modify the following parameters in `pipeline_scripts/4_normalize_cool/normalize_cool.sh`
+``
+# Path to .cool file
+in_file_path="../output/cool_matrix/hPSC_merged_bio_rep/1000/hPSC_merged_bio_rep_1000_random_chr_removed_unnormalized.cool"
+
+# Resolution of .cool file
+in_resolution=1000
+
+# Output directory path
+out_path="../output/cool_matrix/hPSC_merged_bio_rep/1000"
+
+# Modify output file name here
+out_file_path="${out_path}/hPSC_merged_bio_rep_1000_random_chr_removed_normalized.cool"
+``
+Then,
+```
+Run:
+    ./normalize_cool.sh
+```
 
 <br>
 <br>
@@ -85,6 +128,26 @@ To merge replicates after processing individual replicates, we can rerun HiC-Pro
 # Pipeline for Identification of AB Compartments 
 This pipeline is based on the protocol outlined by Miura et al. in their book. It utilizes HiCExplorer to generates A/B compartments starting from a raw .cool matrix. While input for pipeline is a raw .cool matrix, but you can start from a normalized .cool matrix and bypass the step 1 below.
 
+Scripts: https://github.com/seqcode/Micro-C-Pipelines/tree/main/pipeline_scripts/6_ab_comparmtments
+
+## Usage
+Modify the following parameter in `pca.sh`
+```
+# Path to input .cool file
+cool_file_path=""
+
+# Output directory path
+out_path=""
+
+# Chromosome name
+CHR=""
+```
+```
+Run:
+    ./pca.sh
+```
+
+## Description
 1) Normalize .cool file:
    - (optional) Normalize to equal level of read coverage or value ranges: If you want to compare different Hi-C interaction matrices (samples/replicates), the matrices need to be normalized to equal level of read coverage or value ranges. This can be achieved with ‘hicNormalize’ command as follows. Please refer to hicNormalize documentation for further details.
      ```
