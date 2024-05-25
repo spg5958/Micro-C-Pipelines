@@ -43,3 +43,7 @@ Run:
 MY_INSTALL_PATH/bin/HiC-Pro -i FULL_PATH_TO_DATA_FOLDER -o FULL_PATH_TO_OUTPUTS -c MY_LOCAL_CONFIG_FILE
 ```
 ## Step 2 - Merge Replicates
+To merge biological replicates after merging technical replicates, we can rerun HiC-Pro starting from the validPairs files generated during the previous analysis. There's no need to start from the FASTQ files again.
+
+- Arrange validPairs files according to the following directory structure.
+- 
