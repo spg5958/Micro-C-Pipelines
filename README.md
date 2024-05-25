@@ -1,9 +1,14 @@
 # [DOCUMENTATION & SOME SCRIPTS ARE UNDER DEVELOPMENT]
 
+# Contents
+ - [Pipeline for generating contact matrix from FASTQ files using HiC-Pro](#Pipeline-for-generating-contact-matrix-from-FASTQ-files-using-HiC-Pro) 
+ - [Pipeline for Identification of A/B Compartments](#Pipeline-for-Identification-of-A/B-Compartments) 
+
+
 <br>
 <br>
 
-# Pipeline 1 - Pipeline for generating contact matrix from FASTQ files using HiC-Pro
+# Pipeline for generating contact matrix from FASTQ files using HiC-Pro
 
 ## Step 1 - Process Individual Replicates
 - Arrange the FASTQ files according to the following directory structure. HiC-Pro considers all readsr within one input folder as one sample
@@ -75,7 +80,7 @@ To merge biological replicates after merging technical replicates, we can rerun 
 <br>
 <br>
 
-# Pipeline 2 - Pipeline for Identification of A/B Compartments 
+# Pipeline for Identification of A/B Compartments 
 This pipeline is based on the protocol outlined by Miura et al. in their book1. It utilizes HiCExplorer commands as detailed in the documentation2 and generates A/B compartments starting from a raw .cool matrix. While input for pipeline is a raw .cool matrix, but you can start from a normalized .cool matrix and bypass the step 1 below.
 
 1) Normalize .cool file:
