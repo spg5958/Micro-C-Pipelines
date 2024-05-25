@@ -143,39 +143,44 @@ This pipeline is based on the protocol outlined by Miura et al. in their book1. 
     ```
   6) Plot A/B compartments:
      A/B compartments can be visualized using ‘pyGenomeTracks’13 package. To begin, you need to create a track file that includes the first principal component (PC), gene density, and the contact matrix. Below is an example of how to structure your track file, along with the command to plot the A/B compartments using this file.
-     Example track.ini file: 
-  ```
-  [x-axis] 
-  where = top 
-
-  [spacer] 
-  
-  [pca1 bedgraph] 
-  file = pca1_Seq021_MicroC_merged_rep_chr1_500000.bedgraph 
-  color = blue 
-  height = 5 
-  transform = no 
-  negative_color = red 
-  height = 2 
-  title = PCA 1 
-
-  [rich_in_A.bedgraph] 
-  file = rich_in_A_Seq021_MicroC_merged_rep_chr1_500000.bedgraph 
-  color = orange 
-  type = line:2 
-  height = 2 
-  title = GC content 
-
-  [spacer] 
-
-  [hic matrix] 
-  file = obs_exp_Seq021_MicroC_merged_rep_chr1_500000.cool 
-  depth =  250_000_000 
-  file_type = hic_matrix_square 
-  colormap = coolwarm 
-  transform = log 
-  min_value = -2 
-  max_value = 2 
-  show_masked_bins = true 
-  title = log(O/E)
-  ``` 
+     Example track.ini file:
+     
+      ```
+      [x-axis] 
+      where = top 
+    
+      [spacer] 
+      
+      [pca1 bedgraph] 
+      file = pca1_Seq021_MicroC_merged_rep_chr1_500000.bedgraph 
+      color = blue 
+      height = 5 
+      transform = no 
+      negative_color = red 
+      height = 2 
+      title = PCA 1 
+    
+      [rich_in_A.bedgraph] 
+      file = rich_in_A_Seq021_MicroC_merged_rep_chr1_500000.bedgraph 
+      color = orange 
+      type = line:2 
+      height = 2 
+      title = GC content 
+    
+      [spacer] 
+    
+      [hic matrix] 
+      file = obs_exp_Seq021_MicroC_merged_rep_chr1_500000.cool 
+      depth =  250_000_000 
+      file_type = hic_matrix_square 
+      colormap = coolwarm 
+      transform = log 
+      min_value = -2 
+      max_value = 2 
+      show_masked_bins = true 
+      title = log(O/E)
+      ```
+      ```
+      Run:
+        pyGenomeTracks --tracks tracks.ini --region CHR:star-end --outFileName out.png 
+      ```
