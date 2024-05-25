@@ -277,6 +277,7 @@ The intended analysis of this pipeline is the pile-up (aggregate) analysis of th
 Scripts:
 - /pipeline_scripts/8_loops_and_pileup_analysis/1_call_loops
 - /pipeline_scripts/8_loops_and_pileup_analysis/6_loops_and_histone_marks_or_tfs_bed_intersection
+- /pipeline_scripts/8_loops_and_pileup_analysis/2_pileup_analysis_aggregate_analysis/off_diagonal_pileup_analysis
 ```
 
 ## Usage
@@ -311,5 +312,19 @@ Run:
     ./2_loops_histone_marks_intersection.sh
 ```
 
-3) Aggregate (pile-up) analysis:
-   Aggregate analysis is carried out using coolpuppy package4. The script to perform pile-up analysis can be downloaded from here. It takes the loop file (in bedpe format) generated in the previous step and performs off-diagonal pile-up analysis using coolpuppy, producing a pile-up analysis plot. Please modify the input arguments (lines 13-18) at the beginning of the script as needed and run the script. After a successful run, you should obtain a plot of the pile-up analysis.
+### Step 3 - Aggregate (pile-up) analysis:
+Aggregate analysis is carried out using coolpuppy package. The script to perform pile-up analysis is present at `/pipeline_scripts/8_loops_and_pileup_analysis/2_pileup_analysis_aggregate_analysis/off_diagonal_pileup_analysis/pileup_analysis_off_diagonal.py`. It takes the loop file (in bedpe format) generated in the previous step and performs off-diagonal pile-up analysis using coolpuppy, producing a pile-up analysis plot. Please modify the following input arguments at the beginning of the script as needed and run the script. After a successful run, you should obtain a plot of the pile-up analysis.
+
+```
+cool_file_path="../output/DE_merged_bio_rep_1000_normalized.cool"        # path to normalized .cool file
+bedpe_file_path="../output/merge_loops/loops_merged.bedpe"               # path to loops .bedpe file
+flank = 25_000                                                           # flanking distance around loops
+out_file_path="../output/check.h5"                                       # path to output file
+out_figure_path = "../output/check.png"                                  # path of ouput pile-up plot
+SAMPLE="DE"                                                              # name of the sample
+```
+Then,
+```
+Run:
+    ./pileup_analysis_off_diagonal.sh
+```
