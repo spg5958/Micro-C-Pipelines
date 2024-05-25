@@ -16,6 +16,7 @@
 Scripts: 
 - pipeline_scripts/1_hic_pro
 - pipeline_scripts/2_hicpro_to_cool_mcool
+- pipeline_scripts/4_normalize_cool
 ```
 
 ## Step 1 - Process Individual Replicates
