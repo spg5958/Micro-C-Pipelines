@@ -13,7 +13,7 @@
 # Pipeline for generating contact matrix from FASTQ files using HiC-Pro
 
 ## Step 1 - Process Individual Replicates
-- Arrange the FASTQ files according to the following directory structure. HiC-Pro considers all readsr within one input folder as one sample
+- Arrange the FASTQ files according to the following directory structure. HiC-Pro considers all reads within one input folder as one sample.
   ```
   |--PATH_TO_FASTQ_FILES
      |--sample1
@@ -27,13 +27,13 @@
         |-- file1_R2.fastq.gz
   ```
 - Generate annotation files:
-  - chromosomes sizes file: Two-column tab-separated text file containing chromosome names and sizes. 
+  - **chromosomes sizes file:** Two-column tab-separated text file containing chromosome names and sizes. 
 e.g.: https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes 
-   - The bowtie2 indexes: See the bowtie2 manual page for details about how to create such indexes. 
-   - (HiC only) A BED file of the restriction fragments after digestion: This file depends on both the restriction enzyme and the reference genome. See the HiC-Pro annotation for details about how to generate this file.
+  - **The bowtie2 indexes:** See the bowtie2 manual page for details about how to create such indexes. 
+  - **(HiC only) A BED file of the restriction fragments after digestion:** This file depends on both the restriction enzyme and the reference genome. See the HiC-Pro annotation for details about how to generate this file.
  
 - Setup the configuration file: <br>
-  Copy and edit the 'config-hicpro.txt' file in your local directory. Modify the options in the configuration file as required. Below are some important options to consider; for more detailed explanations of these options, refer to the HiC-Pro manual. 
+  Copy and edit the 'config-hicpro.txt' file in your local directory. Modify the options in the configuration file as required. Below are some of the important options to consider; for more detailed explanations of these options, refer to the HiC-Pro manual. 
   - PAIR1_EXT = Keyword for first mate detection. Default: _R1 
   - PAIR2_EXT = Keyword for second mate detection. Default: _R2 
   - REFERENCE_GENOME = Reference genome prefix used for genome indexes. Default: hg19 
@@ -54,12 +54,12 @@ e.g.: https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes
   ```
   
 ## Step 2 - Merge Replicates
-To merge biological replicates after merging technical replicates, we can rerun HiC-Pro starting from the validPairs files generated during the previous analysis. There's no need to start from the FASTQ files again.
+To merge replicates after processing individual replicates, we can rerun HiC-Pro starting from the validPairs files generated during the individual replicates processing. There's no need to start from the FASTQ files again.
 
 - Arrange validPairs files according to the following directory structure.
   ```
   |--PATH_TO_validPairs_FILES
-     |--validPairs
+     |--validPairs_dir
         |--validPairs tech_sample1
         |--validPairs tech_sample2
   ```
@@ -70,20 +70,20 @@ To merge biological replicates after merging technical replicates, we can rerun 
   
 ## Step 3 - Generate .cool Files
    HiC-Pro outputs contact matrices in .matrix format. However, .cool files are generally accepted by most HiC analysis software and are also easier to handle than other formats.
-   Therefore, I convert .matrix files to .cool files using the following 'hicpro2higlass.sh' script that comes with HiC-Pro. 
+   Therefore, I convert .matrix files to .cool files using the following 'hicpro2higlass.sh' script that comes with the HiC-Pro. 
    ```
    Run:
       HICPRO_PATH/bin/utils/hicpro2higlass.sh -i MATRIX_FILE -r RESOLUTION -c CHROMSIZES_FILE -o OUTPUT_PATH -p NUM_PROC
    ```
 
 ## Step 4 - Normalize .cool Files
-   Although HiC-Pro can generate normalized .cool files, I prefer to normalize the raw .cool files separately. I use `pipeline_scripts/4_normalize_cool/normalize_cool.py` Python script for normalizing the .cool files. This script uses Iterative correction matrix balancing method from cooler package. The full path to the .cool file should be provided at line number before running.
+   Although HiC-Pro can generate normalized .cool files, I prefer to normalize the raw .cool files separately. I use `pipeline_scripts/4_normalize_cool/normalize_cool.py` Python script for normalizing the .cool files. This script uses Iterative correction matrix balancing method from cooler package. The full path to the .cool file should be provided in the script.
 
 <br>
 <br>
 
 # Pipeline for Identification of AB Compartments 
-This pipeline is based on the protocol outlined by Miura et al. in their book1. It utilizes HiCExplorer commands as detailed in the documentation2 and generates A/B compartments starting from a raw .cool matrix. While input for pipeline is a raw .cool matrix, but you can start from a normalized .cool matrix and bypass the step 1 below.
+This pipeline is based on the protocol outlined by Miura et al. in their book. It utilizes HiCExplorer to generates A/B compartments starting from a raw .cool matrix. While input for pipeline is a raw .cool matrix, but you can start from a normalized .cool matrix and bypass the step 1 below.
 
 1) Normalize .cool file:
    - (optional) Normalize to equal level of read coverage or value ranges: If you want to compare different Hi-C interaction matrices (samples/replicates), the matrices need to be normalized to equal level of read coverage or value ranges. This can be achieved with ‘hicNormalize’ command as follows. Please refer to hicNormalize documentation for further details.
